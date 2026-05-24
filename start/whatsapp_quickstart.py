@@ -32,12 +32,38 @@ def send_whatsapp_message():
     data = {
         "messaging_product": "whatsapp",
         "to": RECIPIENT_WAID,
-        "type": "template",
-        "template": {"name": "hello_world", "language": {"code": "en_US"}},
-    }
+        "type": "interactive",
+        "interactive": {
+            "type": "button",
+            "body": {
+                "text": "Please choose one option:"
+            },
+            "action": {
+                "buttons": [
+                    {
+                        "type": "reply",
+                        "reply": {
+                            "id": "button_1",
+                            "title": "Option 1"
+                        }
+                    },
+                    {
+                        "type": "reply",
+                        "reply": {
+                            "id": "button_2",
+                            "title": "Option 2"
+                        }
+                    }
+                ]
+            }
+        }
+        }
     response = requests.post(url, headers=headers, json=data)
     return response
 
+RECIPIENT_WAID = os.getenv("RECIPIENT_WAID")
+
+print(RECIPIENT_WAID)
 
 # Call the function
 response = send_whatsapp_message()
